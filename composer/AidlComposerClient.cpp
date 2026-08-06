@@ -460,7 +460,15 @@ ScopedAStatus AidlComposerClient::getDisplayConfigurations(
       display_configuration.vrrConfig = {
           static_cast<int32_t>(1000000000LL / variable_config.fps), {}, {}};
       int notify_ept_threshold_value = settings_->GetNotifyEptConfig(in_display);
-      if (variable_config.early_ept_timeout > 0 && notify_ept_threshold_value > 0) {
+      if (variable_config.avr_step == 0 && variable_config.is_oplus_adfr_supported &&
+          variable_config.qsync_min_fps > 0) {
+        const int32_t nominal_vsync_period_ns =
+            static_cast<int32_t>(1000000000LL / variable_config.fps);
+        display_configuration.vrrConfig->notifyExpectedPresentConfig = {
+            nominal_vsync_period_ns, nominal_vsync_period_ns};
+        ALOGI("NotifyExpectedPresent config translated to Oplus ADFR, nominal period= %d ns",
+              nominal_vsync_period_ns);
+      } else if (variable_config.early_ept_timeout > 0 && notify_ept_threshold_value > 0) {
         int notify_ept_heads_up =
             static_cast<int32_t>((1000.f / static_cast<float>(variable_config.fps)) * 1000000 *
                                  notify_ept_threshold_value);
