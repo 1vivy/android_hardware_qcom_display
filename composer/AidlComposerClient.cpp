@@ -453,11 +453,12 @@ ScopedAStatus AidlComposerClient::getDisplayConfigurations(
           config_id, variable_config.vsync_period_ns, display_configuration.configGroup,
           variable_config.fps);
 
-    if (enable_vrr && variable_config.avr_step > 0) {
+    const bool has_vrr_config =
+        variable_config.avr_step > 0 ||
+        (variable_config.is_oplus_adfr_supported && variable_config.qsync_min_fps > 0);
+    if (enable_vrr && has_vrr_config && variable_config.fps > 0) {
       display_configuration.vrrConfig = {
-          static_cast<int32_t>((1000.f / static_cast<float>(variable_config.fps)) * 1000000),
-          {},
-          {}};
+          static_cast<int32_t>(1000000000LL / variable_config.fps), {}, {}};
       int notify_ept_threshold_value = settings_->GetNotifyEptConfig(in_display);
       if (variable_config.early_ept_timeout > 0 && notify_ept_threshold_value > 0) {
         int notify_ept_heads_up =
