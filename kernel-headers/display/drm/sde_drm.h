@@ -90,13 +90,6 @@ extern "C" {
 #define DRM_FORMAT_MOD_QCOM_LOSSY_2_1	fourcc_mod_code(QCOM, 0x200)
 
 /**
- * @DRM_FORMAT_MOD_QCOM_DMA:       Refers to a DMA variant of the base format.
- *                                  Implementation may be platform and
- *                                  base-format specific.
- */
-#define DRM_FORMAT_MOD_QCOM_DMA	fourcc_mod_code(QCOM, 0x400)
-
-/**
  * Blend operations for "blend_op" property
  *
  * @SDE_DRM_BLEND_OP_NOT_DEFINED:   No blend operation defined for the layer.
@@ -354,7 +347,9 @@ struct sde_drm_cac {
 #define SDE_DRM_QSEED4
 #define SDE_DRM_INLINE_PREDOWNSCALE
 #define SDE_DRM_QSEED6
+#ifndef OPLUS_FEATURE_GAME_DSR
 #define SDE_DRM_QSEED7
+#endif
 
 /**
  * struct sde_drm_scaler_v2 - version 2 of struct sde_drm_scaler
@@ -668,12 +663,6 @@ struct sde_drm_roi_v1 {
 #define SDE_RECOVERY_SUCCESS		0
 #define SDE_RECOVERY_CAPTURE		1
 #define SDE_RECOVERY_HARD_RESET		2
-
-/**
- * sde SSR events for notifying client
- */
-#define SDE_SSR_START                   0
-#define SDE_SSR_END                     1
 
 /**
  * Define UBWC statistics config
@@ -1043,37 +1032,6 @@ struct sde_drm_dnsc_blur_cfg {
 	__u32 dither_matrix[DNSC_BLUR_DITHER_MATRIX_SZ];
 };
 
-/* Max privacy layers */
-#define MAX_PRIVACY_LAYERS 16
-
-/**
- * struct sde_privacy - Defines a rectangular privacy region with optional corner radius
- * @corner_radius: Radius for rounded corners of the privacy region
- * @left: Left coordinate of the privacy region
- * @top: Top coordinate of the privacy region
- * @right: Right coordinate of the privacy region
- * @bottom: Bottom coordinate of the privacy region
- **/
-struct sde_privacy {
-	__u32 corner_radius;
-	__u32 left;
-	__u32 top;
-	__u32 right;
-	__u32 bottom;
-};
-
-/**
- * struct sde_drm_privacy_layer_v1 - Defines root structure to hold all privacy layer info.
- * @no_of_layers: Number of active privacy layers in use
- * @reserved: Reserved for future use or alignment
- * @privacy_list: Array of privacy layer configurations, up to MAX_PRIVACY_LAYERS
- **/
-struct sde_drm_privacy_layer_v1 {
-	__u32 no_of_layers;
-	__u32 reserved;
-	struct sde_privacy privacy_list[MAX_PRIVACY_LAYERS];
-};
-
 #define DRM_SDE_WB_CONFIG              0x40
 #define DRM_MSM_REGISTER_EVENT         0x41
 #define DRM_MSM_DEREGISTER_EVENT       0x42
@@ -1104,7 +1062,9 @@ struct sde_drm_privacy_layer_v1 {
 #define DRM_EVENT_MDNIE_ART 0X80000012
 #define DRM_EVENT_COPR 0X80000013
 #define DRM_EVENT_VM_RECLAIM 0X80000014
-#define DRM_EVENT_SSR 0X80000015
+#ifdef OPLUS_FEATURE_DISPLAY
+#define DRM_EVENT_TP_TOUCHDOWN 0x80000015 /* tp touch down event */
+#endif /* OPLUS_FEATURE_DISPLAY */
 
 #ifndef DRM_MODE_FLAG_VID_MODE_PANEL
 #define DRM_MODE_FLAG_VID_MODE_PANEL        0x01
