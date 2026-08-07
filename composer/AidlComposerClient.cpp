@@ -453,15 +453,16 @@ ScopedAStatus AidlComposerClient::getDisplayConfigurations(
           config_id, variable_config.vsync_period_ns, display_configuration.configGroup,
           variable_config.fps);
 
-    const bool has_vrr_config =
-        variable_config.avr_step > 0 ||
-        (variable_config.is_oplus_adfr_supported && variable_config.qsync_min_fps > 0);
+    sdm::OplusAdfrConfig oplus_adfr_config = {};
+    const bool has_oplus_adfr = sdm::GetOplusAdfrConfig(settings_.get(), in_display, config_id,
+                                                        &oplus_adfr_config) == sdm::kErrorNone &&
+                                oplus_adfr_config.IsSupported();
+    const bool has_vrr_config = variable_config.avr_step > 0 || has_oplus_adfr;
     if (enable_vrr && has_vrr_config && variable_config.fps > 0) {
       display_configuration.vrrConfig = {
           static_cast<int32_t>(1000000000LL / variable_config.fps), {}, {}};
       int notify_ept_threshold_value = settings_->GetNotifyEptConfig(in_display);
-      if (variable_config.avr_step == 0 && variable_config.is_oplus_adfr_supported &&
-          variable_config.qsync_min_fps > 0) {
+      if (variable_config.avr_step == 0 && has_oplus_adfr) {
         const int32_t nominal_vsync_period_ns =
             static_cast<int32_t>(1000000000LL / variable_config.fps);
         display_configuration.vrrConfig->notifyExpectedPresentConfig = {
