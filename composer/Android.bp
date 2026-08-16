@@ -118,7 +118,7 @@ prebuilt_etc {
 
 prebuilt_etc_xml {
     name: "vendor.qti.hardware.display.composer-service.xml",
-    src: select(soong_config_variable("qtidisplay", "composer_version"), {
+    src: select(soong_config_variable("qtidisplay_sm8850", "composer_version"), {
         "v3_4": "vendor.qti.hardware.display.composer-service3_v4.xml",
         "v3_3": "vendor.qti.hardware.display.composer-service3_v3.xml",
         default: "vendor.qti.hardware.display.composer-service3_v2.xml",
@@ -180,7 +180,7 @@ cc_fuzz {
 soong_config_module_type {
     name: "qticomposer3_cc_defaults",
     module_type: "cc_defaults",
-    config_namespace: "qtidisplay",
+    config_namespace: "qtidisplay_sm8850",
     variables: [
         "composer_version",
     ],

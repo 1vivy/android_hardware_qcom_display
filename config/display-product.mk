@@ -175,15 +175,17 @@ endif
 
 # Soong Namespace
 SOONG_CONFIG_NAMESPACES += qtidisplay
+SOONG_CONFIG_NAMESPACES += qtidisplay_sm8850
 
 # Soong Keys
 SOONG_CONFIG_qtidisplay := drmpp headless llvmsa \
                            gralloc4 displayconfig_enabled \
                            default var1 var2 var3 llvmcov  \
-                           composer_version smmu_proxy \
+                           smmu_proxy \
                            ubwcp_headers hwasan mapper_ext \
                            hy11 hy22 hy33 neo \
                            hw_fence_disabled
+SOONG_CONFIG_qtidisplay_sm8850 := composer_version
 
 # Soong Values
 SOONG_CONFIG_qtidisplay_neo := false
@@ -203,7 +205,7 @@ SOONG_CONFIG_qtidisplay_hy33 := false
 SOONG_CONFIG_qtidisplay_llvmcov := false
 SOONG_CONFIG_qtidisplay_smmu_proxy := false
 SOONG_CONFIG_qtidisplay_ubwcp_headers := true
-SOONG_CONFIG_qtidisplay_composer_version := v3_4
+SOONG_CONFIG_qtidisplay_sm8850_composer_version := v3_4
 SOONG_CONFIG_qtidisplay_mapper_ext := true
 SOONG_CONFIG_qtidisplay_hw_fence_disabled := false
 
@@ -222,16 +224,16 @@ SOONG_CONFIG_qtidisplay_hw_fence_disabled := false
 # BEFORE FRC
 ifeq ($(PLATFORM_VERSION_CODENAME), $(PLATFORM_VERSION))
     ifeq ($(PLATFORM_VERSION), $(filter $(PLATFORM_VERSION), Baklava))
-      SOONG_CONFIG_qtidisplay_composer_version := v3_4
+      SOONG_CONFIG_qtidisplay_sm8850_composer_version := v3_4
     endif
 # AFTER FRC
 else
     ifeq ($(PLATFORM_VERSION), $(filter $(PLATFORM_VERSION), 14))
-      SOONG_CONFIG_qtidisplay_composer_version := v3_2
+      SOONG_CONFIG_qtidisplay_sm8850_composer_version := v3_2
     else ifeq ($(PLATFORM_VERSION), $(filter $(PLATFORM_VERSION), 15))
-      SOONG_CONFIG_qtidisplay_composer_version := v3_3
+      SOONG_CONFIG_qtidisplay_sm8850_composer_version := v3_3
     else ifeq ($(PLATFORM_VERSION), $(filter $(PLATFORM_VERSION), 16))
-      SOONG_CONFIG_qtidisplay_composer_version := v3_4
+      SOONG_CONFIG_qtidisplay_sm8850_composer_version := v3_4
     endif
 endif
 
