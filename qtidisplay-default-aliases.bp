@@ -7,3 +7,8 @@ cc_defaults {
     name: "qtidisplay_defaults_headless",
     defaults: ["//hardware/qcom-caf/sm8850:qtidisplay_defaults_headless"],
 }
+
+cc_defaults {
+    name: "qtidisplay_common_defaults",
+    defaults: ["//hardware/qcom-caf/sm8850:qtidisplay_common_defaults"],
+}
