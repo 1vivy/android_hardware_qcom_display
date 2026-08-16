@@ -12,3 +12,10 @@ cc_defaults {
     name: "qtidisplay_common_defaults",
     defaults: ["//hardware/qcom-caf/sm8850:qtidisplay_common_defaults"],
 }
+
+cc_library_headers {
+    name: "display_debug_headers",
+    vendor: true,
+    header_libs: ["//hardware/qcom-caf/sm8750:display_debug_headers"],
+    export_header_lib_headers: ["//hardware/qcom-caf/sm8750:display_debug_headers"],
+}
