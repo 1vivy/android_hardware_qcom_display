@@ -1,0 +1,7 @@
+soong_namespace {
+    imports: [
+        "hardware/qcom-caf/sm8850",
+        "vendor/qcom/opensource/commonsys-intf/display",
+        "vendor/qcom/opensource/display",
+    ],
+}
