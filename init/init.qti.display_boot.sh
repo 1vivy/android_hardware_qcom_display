@@ -131,9 +131,9 @@ case "$target" in
         setprop vendor.display.thermal.version 1
         setprop vendor.gralloc.enable_snapalloc 1
         setprop vendor.display.enable_perf_hint_large_comp_cycle 1
-        setprop vendor.display.enable_spec_fence 1
+        setprop vendor.display.enable_spec_fence 0
         if [ "$soc_hwid" -ne 635 ] && [ "$soc_hwid" -ne 555 ]; then
-           setprop vendor.display.enable_inline_writeback 1
+           setprop vendor.display.enable_inline_writeback 0
         else
            setprop vendor.display.disable_cwb_idle_fallback 1
         fi
@@ -145,7 +145,8 @@ case "$target" in
         fi
         setprop vendor.display.enable_optimal_refresh_rate 1
         setprop vendor.display.refresh_rate_changeable 1
-        setprop vendor.display.enable_brightness_drm_prop 1
+        setprop vendor.display.enable_brightness_drm_prop 0
+        setprop vendor.display.libscale_version_override 10
         setprop vendor.display.disable_fbt_for_cwb_fallback 1
         setprop vendor.display.enable_idle_content_fps_hint 1
         setprop vendor.display.enable_privacy_layers 1
